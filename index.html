@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/17734/17734786.png" type="image/png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscador Vídeos</title>
+  <style>
+    :root {
+      --bg: #f9f9f9;
+      --text: #333;
+      --input-bg: #fff;
+      --btn-bg: #4285f4;
+      --btn-hover: #357ae8;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --text: #eaeaea;
+        --input-bg: #1e1e1e;
+        --btn-bg: #4a90e2;
+        --btn-hover: #357ae8;
+      }
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      /* Animação de Entrada Suave */
+      animation: fadeIn 0.8s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
+
+    h1 { 
+      margin-bottom: 20px;
+      /* Animação suave para o título também */
+      animation: fadeIn 0.8s ease-in 0.1s both;
+    }
+
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      background: var(--input-bg);
+      color: var(--text);
+      /* Animação suave para o input */
+      animation: fadeIn 0.8s ease-in 0.2s both;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: var(--btn-bg);
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.2s;
+      /* Animação suave para o botão */
+      animation: fadeIn 0.8s ease-in 0.3s both;
+    }
+
+    button:hover { background-color: var(--btn-hover); }
+  </style>
+</head>
+<body>
+  <h1>Buscador de Vídeos (20min+)</h1>
+  <input id="searchInput" type="text" placeholder="Digite sua busca..." autofocus>
+  <button onclick="buscar()">Buscar</button>
+
+  <script>
+    const input = document.getElementById('searchInput');
+
+    function buscar() {
+      const termo = input.value.trim();
+      if (!termo) return alert('Digite algo para buscar!');
+      
+      // CORREÇÃO: busca com espaços normais
+      const query = encodeURIComponent(termo).replace(/%20/g, ' ');
+      const url = `https://www.google.com/search?q=${query}&udm=7&tbs=dur:l`;
+      window.location.href = url;
+    }
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') buscar();
+    });
+  </script>
+</body>
+</html>
