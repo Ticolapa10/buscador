@@ -1,93 +1,111 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/17734/17734786.png  " type="image/png" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buscador Vídeos</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/17734/17734786.png" type="image/png">
+
   <style>
+    /* Paleta geral (tema “dark-blue”) */
     :root {
-      --bg: #f9f9f9;
-      --text: #333;
-      --input-bg: #fff;
-      --btn-bg: #4285f4;
-      --btn-hover: #357ae8;
+      --bg: #0d1b2a;               /* azul bem escuro – cor sólida de fallback   */
+      --bg-grad: linear-gradient(  /* gradiente para dar profundidade            */
+        135deg,
+        #0d1b2a 0%,
+        #152538 35%,
+        #1e3246 65%,
+        #29425b 100%
+      );
+
+      --text: #e9eef4;             /* quase branco para bom contraste            */
+      --subtext: #c0c9d6;
+      --input-bg: #1a2738;         /* azul um pouco mais claro que o fundo       */
+      --input-border: #304760;
+      --btn-bg: #3a6ef7;           /* azul vibrante para chamar atenção          */
+      --btn-hover: #2f55c7;
     }
 
+    /* Ajuste extra se o visitante já estiver em modo escuro */
     @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #121212;
-        --text: #eaeaea;
-        --input-bg: #1e1e1e;
-        --btn-bg: #4a90e2;
-        --btn-hover: #357ae8;
-      }
+      :root { /* mantemos a mesma paleta, só garantindo coerência */ }
+    }
+
+    /*************** LAYOUT ***************/
+    html, body {
+      height: 100%;
+      margin: 0;
     }
 
     body {
-      font-family: Arial, sans-serif;
+      font-family: "Segoe UI", Arial, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      background: var(--bg);
+      background: var(--bg-grad);      /* gradiente bonito 🙂  */
       color: var(--text);
-      margin: 0;
-      /* Animação de Entrada Suave */
       animation: fadeIn 0.8s ease-in;
     }
 
     @keyframes fadeIn {
-      from { 
-        opacity: 0; 
-        transform: translateY(20px); 
-      }
-      to { 
-        opacity: 1; 
-        transform: translateY(0); 
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0);   }
     }
 
-    h1 { 
-      margin-bottom: 20px;
-      /* Animação suave para o título também */
-      animation: fadeIn 0.8s ease-in 0.1s both;
+    h1 {
+      margin-bottom: 24px;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.45);
+      animation: fadeIn 0.8s ease-in 0.05s both;
     }
 
     input {
-      width: 300px;
-      padding: 10px;
+      width: 320px;
+      padding: 11px 14px;
       font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      outline: none;
+      border: 1px solid var(--input-border);
+      border-radius: 6px;
       background: var(--input-bg);
       color: var(--text);
-      /* Animação suave para o input */
-      animation: fadeIn 0.8s ease-in 0.2s both;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      animation: fadeIn 0.8s ease-in 0.15s both;
+    }
+
+    input:focus {
+      border-color: var(--btn-bg);
+      box-shadow: 0 0 0 3px rgba(58,110,247,0.25);
     }
 
     button {
-      margin-top: 10px;
-      padding: 10px 20px;
+      margin-top: 14px;
+      padding: 11px 28px;
       font-size: 16px;
+      font-weight: 600;
       border: none;
-      background-color: var(--btn-bg);
-      color: white;
-      border-radius: 5px;
+      border-radius: 6px;
+      background: var(--btn-bg);
+      color: #fff;
       cursor: pointer;
-      transition: background 0.2s;
-      /* Animação suave para o botão */
-      animation: fadeIn 0.8s ease-in 0.3s both;
+      transition: background 0.25s, transform 0.15s;
+      animation: fadeIn 0.8s ease-in 0.25s both;
     }
 
-    button:hover { background-color: var(--btn-hover); }
+    button:hover       { background: var(--btn-hover); }
+    button:active      { transform: scale(0.97); }
   </style>
 </head>
+
 <body>
-  <h1>Buscador de Vídeos (20min+)</h1>
-  <input id="searchInput" type="text" placeholder="Digite sua busca..." autofocus autocomplete="off">
+  <h1>Buscador de Vídeos (20 min+)</h1>
+
+  <input  id="searchInput"
+          type="text"
+          placeholder="Digite sua busca..."
+          autofocus
+          autocomplete="off">
+
   <button onclick="buscar()">Buscar</button>
 
   <script>
@@ -95,9 +113,12 @@
 
     function buscar() {
       const termo = input.value.trim();
-      if (!termo) return alert('Digite algo para buscar!');
-      
-      // CORREÇÃO: busca com espaços normais
+      if (!termo) {
+        alert('Digite algo para buscar!');
+        return;
+      }
+
+      /* Mantemos espaços normais na query */
       const query = encodeURIComponent(termo).replace(/%20/g, ' ');
       const url = `https://www.google.com/search?q=${query}&udm=7&tbs=dur:l`;
       window.location.href = url;
