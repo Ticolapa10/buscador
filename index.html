@@ -8,21 +8,19 @@
 
   <style>
     /* ---------- PALETA “DARK-BLUE” ---------- */
-    :root {
-      --bg: #0d1b2a;
-      --bg-grad: linear-gradient(135deg,#0d1b2a 0%,#152538 35%,#1e3246 65%,#29425b 100%);
-      --text: #e9eef4;
-      --subtext: #c0c9d6;
-      --input-bg: #1a2738;
-      --input-border: #304760;
-      --btn-bg: #3a6ef7;
-      --btn-hover: #2f55c7;
+    :root{
+      --bg:#0d1b2a;
+      --bg-grad:linear-gradient(135deg,#0d1b2a 0%,#152538 35%,#1e3246 65%,#29425b 100%);
+      --text:#e9eef4;
+      --subtext:#c0c9d6;
+      --input-bg:#1a2738;
+      --input-border:#304760;
+      --btn-bg:#3a6ef7;
+      --btn-hover:#2f55c7;
     }
 
     /* ---------- LAYOUT GERAL ---------- */
-    html,body{
-      height:100%;margin:0;
-    }
+    html,body{height:100%;margin:0;}
     body{
       font-family:"Segoe UI",Arial,sans-serif;
       display:flex;flex-direction:column;
@@ -36,14 +34,24 @@
       to  {opacity:1;transform:translateY(0);}
     }
 
+    /* TÍTULO — garantimos centralização real */
     h1{
-      margin-bottom:24px;font-weight:600;
+      width:100%;                 /* ocupa toda a largura do viewport            */
+      max-width:700px;            /* evita ficar exagerado em telas grandes       */
+      margin:0 0 24px;            /* espaço inferior apenas                       */
+      padding:0 1rem;             /* respiro lateral em mobile                    */
+      font-weight:600;
+      font-size:1.75rem;
+      line-height:1.3;
+      text-align:center;          /* texto CENTRALIZADO, inclusive em quebras    */
       text-shadow:0 2px 4px rgba(0,0,0,.45);
       animation:fadeIn .8s ease-in .05s both;
+      box-sizing:border-box;      /* respeita o padding no cálculo de largura    */
     }
 
+    /* --------- CAMPOS --------- */
     input{
-      width:320px;max-width:90vw;      /* responsivo já de cara  */
+      width:320px;max-width:90vw;
       padding:11px 14px;font-size:16px;
       border:1px solid var(--input-border);
       border-radius:6px;
@@ -71,35 +79,31 @@
     button:active{transform:scale(.97);}
 
     /* ---------- RESPONSIVIDADE (mobile-first) ---------- */
-    @media (max-width: 480px){
+    @media (max-width:480px){
       h1{
-        font-size:1.5rem;
-        line-height:1.25;
-        text-align:center;
-        margin:0 1rem 22px;
+        font-size:1.5rem;         /* escala na mão para caber direitinho         */
+        margin-bottom:22px;
       }
-      input,
-      button{
-        width: calc(100vw - 2rem); /* 1rem de margem lateral */
-        max-width: 400px;
+      input,button{
+        width:calc(100vw - 2rem);
+        max-width:400px;
       }
-      input{font-size:17px;}
+      input {font-size:17px;}
       button{
         font-size:17px;
         padding:13px 0;
       }
     }
 
-    /* Telas grandes podem ganhar um leve aumento de fonte */
-    @media (min-width: 1200px){
-      h1  {font-size:2rem;}
+    @media (min-width:1200px){
+      h1{font-size:2rem;}
       input,button{font-size:17px;}
     }
   </style>
 </head>
 
 <body>
-  <h1>Buscador de Vídeos (20&nbsp;min+)</h1>
+  <h1>Buscador de Vídeos&nbsp;(20&nbsp;min+)</h1>
 
   <input  id="searchInput"
           type="text"
@@ -110,20 +114,17 @@
   <button onclick="buscar()">Buscar</button>
 
   <script>
-    const input = document.getElementById('searchInput');
+    const input=document.getElementById('searchInput');
 
-    /*-----------------------------------------------------
-      Realiza a busca no Google pelo termo digitado (20min+)
-    -----------------------------------------------------*/
     function buscar(){
-      const termo = input.value.trim();
+      const termo=input.value.trim();
       if(!termo){
         alert('Digite algo para buscar!');
         return;
       }
-      const query = encodeURIComponent(termo).replace(/%20/g,' ');
-      const url = `https://www.google.com/search?q=${query}&udm=7&tbs=dur:l`;
-      window.location.href = url;
+      const query=encodeURIComponent(termo).replace(/%20/g,' ');
+      const url=`https://www.google.com/search?q=${query}&udm=7&tbs=dur:l`;
+      window.location.href=url;
     }
 
     input.addEventListener('keydown',e=>{
